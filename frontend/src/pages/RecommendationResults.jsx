@@ -47,10 +47,41 @@ const RecommendationResults = () => {
                                     </span>
                                 </div>
 
+                {/* {recommendations.map((product, index) => (
+                    <div key={product.id} className="col-lg-6 mb-4">
+                        <div className="card h-100 border-0 shadow-sm">
+                            <div className="card-body">
+                                {/* Badge de posición */}
+                                {/* <div className="position-absolute top-0 start-0 m-3">
+                                    <span className="badge bg-primary fs-6">#{index + 1}</span>
+                                </div>
+                                
+                                {/* Score de compatibilidad */}
+                                {/* <div className="position-absolute top-0 end-0 m-3">
+                                    <span className="badge bg-success fs-6">
+                                        {product.match_percentage} compatible
+                                    </span>
+                                </div>  */}
+
                                 {/* Producto */}
                                 <div className="mt-4">
                                     <ProductCard product={product} />
                                 </div>
+
+
+                                         {/* ✅ NUEVO: Detalles del match */}
+                                    <div className="mt-3 p-3 bg-light rounded">
+                                        <h6>🎯 Por qué es compatible:</h6>
+                                        <ul className="list-unstyled mb-0 small">
+                                            {product.match_details && product.match_details.map((detail, i) => (
+                                                <li key={i} className={detail.startsWith('✅') ? 'text-success' : 'text-warning'}>
+                                                    {detail}
+                                                </li>
+                                            ))}
+                                        </ul>
+                                    </div>
+
+
                             </div>
                         </div>
                     </div>

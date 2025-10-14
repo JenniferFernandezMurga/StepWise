@@ -3,14 +3,12 @@ import { useNavigate } from "react-router-dom"
 
 const RecommendationForm = () => {
     const [formData, setFormData] = useState({
-        // ✅ NUEVO CAMPO
+    
         gender: "",
-        // Campos requeridos existentes
         foot_width: "",
         arch_type: "",
-        weight: "",  // Se enviará como número
+        weight: "", 
         activity_type: "",
-        // Campos opcionales
         footstrike_type: "",
         target_distance: "",
         running_level: ""
@@ -19,13 +17,49 @@ const RecommendationForm = () => {
     const [error, setError] = useState("")
     const navigate = useNavigate()
 
-    const handleChange = (e) => {
-        const { name, value } = e.target
-        setFormData(prev => ({
-            ...prev,
-            [name]: value
-        }))
+     // ✅ OPCIONES DE PESO DINÁMICAS
+    const getWeightOptions = () => {
+        if (formData.gender === 'female') {
+            return [
+                { value: "55", label: "Menos de 60kg (Ligera)" },
+                { value: "65", label: "60-70kg (Media)" },
+                { value: "75", label: "70-80kg (Robusta)" },
+                { value: "85", label: "Más de 80kg (Fuerte)" }
+            ]
+        } else {
+            return [
+                { value: "65", label: "Menos de 70kg (Ligero)" },
+                { value: "80", label: "70-85kg (Medio)" },
+                { value: "90", label: "85-95kg (Robusto)" },
+                { value: "100", label: "Más de 95kg (Fuerte)" }
+            ]
+        }
     }
+
+    // const handleChange = (e) => {
+    //     const { name, value } = e.target
+    //     setFormData(prev => ({
+    //         ...prev,
+    //         [name]: value
+    //     }))
+    // }
+
+    const handleChange = (e) => {
+            const { name, value } = e.target
+            setFormData(prev => ({
+                ...prev,
+                [name]: value
+            }))
+            
+            // ✅ RESETEAR PESO si cambia el género
+            if (name === 'gender') {
+                setFormData(prev => ({
+                    ...prev,
+                    gender: value,
+                    weight: ""  // Resetear peso al cambiar género
+                }))
+            }
+        }    
 
     const handleSubmit = async (e) => {
         e.preventDefault()
@@ -116,8 +150,41 @@ const RecommendationForm = () => {
                                         <option value="">Selecciona tu género</option>
                                         <option value="female">Mujer</option>
                                         <option value="male">Hombre</option>
-                                        <option value="other">Otro / Prefiero no decir</option>
+                                        {/* <option value="other">Otro / Prefiero no decir</option> */}
                                     </select>
+                                </div>
+
+                                {/* ✅ Peso DINÁMICO */}
+                                <div className="mb-4">
+                                    <label className="form-label h5">⚖️ Tu peso corporal</label>
+                                    <small className="text-muted d-block mb-2">
+                                        {formData.gender === 'female' 
+                                            ? "Rangos ajustados para mujeres" 
+                                            : formData.gender === 'male' 
+                                                ? "Rangos ajustados para hombres"
+                                                : "Selecciona tu género primero"}
+                                    </small>
+                                    
+                                    {formData.gender ? (
+                                        <select 
+                                            name="weight"
+                                            className="form-select form-select-lg"
+                                            value={formData.weight}
+                                            onChange={handleChange}
+                                            required
+                                        >
+                                            <option value="">Selecciona tu peso</option>
+                                            {getWeightOptions().map(option => (
+                                                <option key={option.value} value={option.value}>
+                                                    {option.label}
+                                                </option>
+                                            ))}
+                                        </select>
+                                    ) : (
+                                        <div className="alert alert-info">
+                                            ⚠️ Por favor, selecciona tu género primero para ver los rangos de peso adecuados
+                                        </div>
+                                    )}
                                 </div>
 
                                 {/* Ancho del pie */}
@@ -155,7 +222,7 @@ const RecommendationForm = () => {
                                 </div>
 
                                 {/* Peso corporal - ✅ VALORES NUMÉRICOS */}
-                                <div className="mb-4">
+                                {/* <div className="mb-4">
                                     <label className="form-label h5">⚖️ Tu peso corporal</label>
                                     <select 
                                         name="weight"
@@ -169,7 +236,7 @@ const RecommendationForm = () => {
                                         <option value="80">70-90kg (Medio)</option>
                                         <option value="95">Más de 90kg (Pesado)</option>
                                     </select>
-                                </div>
+                                </div> */}
 
                                 {/* Tipo de actividad - REQUERIDO */}
                                 <div className="mb-4">
@@ -225,6 +292,7 @@ const RecommendationForm = () => {
                                         <option value="10k">10K</option>
                                         <option value="half_marathon">Media maratón (21K)</option>
                                         <option value="marathon">Maratón (42K)</option>
+                                         <option value="ultra">Ultramaratón (+42K)</option>
                                     </select>
                                 </div>
 

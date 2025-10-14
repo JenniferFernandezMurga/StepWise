@@ -29,7 +29,7 @@ class Shoe(db.Model):
     distance_capacity = db.Column(db.String(20))  # short, medium, long
     carbon_plate = db.Column(db.Boolean, default=False)  # Si tiene placa de carbono
     best_for_distance = db.Column(db.String(20))  # 5k, 10k, half_marathon, marathon, ultra
-    
+    gender = db.Column(db.String(20), default='unisex')  # 'male', 'female', 'unisex'
 
 
     created_at = db.Column(db.DateTime, default=datetime.utcnow)
@@ -52,7 +52,8 @@ class Shoe(db.Model):
             'footstrike_support': self.footstrike_support,
             'distance_capacity': self.distance_capacity,
             'carbon_plate': self.carbon_plate,
-            'best_for_distance': self.best_for_distance
+            'best_for_distance': self.best_for_distance,
+            'gender': self.gender
         }
 
 # Sistema de usuarios OPCIONAL (para futuro)

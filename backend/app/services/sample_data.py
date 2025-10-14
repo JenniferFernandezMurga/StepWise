@@ -1,7 +1,7 @@
 def create_sample_shoes():
-    """Crea zapatillas de ejemplo deportivas especializadas"""
+    """Crea zapatillas de ejemplo deportivas especializadas con género"""
     sample_shoes = [
-        # ==================== ROAD RUNNING - PRONADORES ====================
+        # ==================== HOMBRES - ROAD RUNNING ====================
         {
             'brand': 'Asics',
             'model': 'Gel-Kayano 28',
@@ -12,12 +12,13 @@ def create_sample_shoes():
             'width_fit': 'standard',
             'arch_support': 'high',
             'weight_capacity': 'medium',
-            'best_for_activity': 'road_running',  # ✅ Actualizado
+            'best_for_activity': 'road_running',
             'cushioning': 'maximum',
             'footstrike_support': 'pronation',
             'distance_capacity': 'long',
             'carbon_plate': False,
-            'best_for_distance': 'marathon'
+            'best_for_distance': 'marathon',
+            'gender': 'male'  # ✅ AGREGADO
         },
         {
             'brand': 'Brooks',
@@ -29,15 +30,16 @@ def create_sample_shoes():
             'width_fit': 'wide',
             'arch_support': 'high',
             'weight_capacity': 'heavy',
-            'best_for_activity': 'road_running',  # ✅ Actualizado
+            'best_for_activity': 'road_running',
             'cushioning': 'maximum',
             'footstrike_support': 'pronation',
             'distance_capacity': 'medium',
             'carbon_plate': False,
-            'best_for_distance': 'half_marathon'
+            'best_for_distance': 'half_marathon',
+            'gender': 'male'  # ✅ AGREGADO
         },
         
-        # ==================== ROAD RUNNING - SUPINADORES ====================
+        # ==================== MUJERES - ROAD RUNNING ====================
         {
             'brand': 'Hoka',
             'model': 'Clifton 8',
@@ -48,12 +50,13 @@ def create_sample_shoes():
             'width_fit': 'standard',
             'arch_support': 'neutral',
             'weight_capacity': 'light',
-            'best_for_activity': 'road_running',  # ✅ Actualizado
+            'best_for_activity': 'road_running',
             'cushioning': 'maximum',
             'footstrike_support': 'supination',
             'distance_capacity': 'long',
             'carbon_plate': False,
-            'best_for_distance': 'marathon'
+            'best_for_distance': 'marathon',
+            'gender': 'female'  # ✅ AGREGADO
         },
         {
             'brand': 'New Balance',
@@ -65,15 +68,16 @@ def create_sample_shoes():
             'width_fit': 'standard',
             'arch_support': 'neutral',
             'weight_capacity': 'medium',
-            'best_for_activity': 'road_running',  # ✅ Actualizado
+            'best_for_activity': 'road_running',
             'cushioning': 'maximum',
             'footstrike_support': 'supination',
             'distance_capacity': 'medium',
             'carbon_plate': False,
-            'best_for_distance': 'half_marathon'
+            'best_for_distance': 'half_marathon',
+            'gender': 'female'  # ✅ AGREGADO
         },
         
-        # ==================== ROAD RUNNING - NEUTRAL ====================
+        # ==================== UNISEX - ROAD RUNNING ====================
         {
             'brand': 'Nike',
             'model': 'Pegasus 38',
@@ -84,12 +88,13 @@ def create_sample_shoes():
             'width_fit': 'standard',
             'arch_support': 'neutral',
             'weight_capacity': 'medium',
-            'best_for_activity': 'road_running',  # ✅ Actualizado
+            'best_for_activity': 'road_running',
             'cushioning': 'medium',
             'footstrike_support': 'neutral',
             'distance_capacity': 'medium',
             'carbon_plate': False,
-            'best_for_distance': 'training'
+            'best_for_distance': 'training',
+            'gender': 'unisex'  # ✅ AGREGADO
         },
         {
             'brand': 'Adidas',
@@ -101,12 +106,13 @@ def create_sample_shoes():
             'width_fit': 'standard',
             'arch_support': 'neutral',
             'weight_capacity': 'light',
-            'best_for_activity': 'road_running',  # ✅ Actualizado
+            'best_for_activity': 'road_running',
             'cushioning': 'maximum', 
             'footstrike_support': 'neutral',
             'distance_capacity': 'medium',
             'carbon_plate': False,
-            'best_for_distance': '10k'
+            'best_for_distance': '10k',
+            'gender': 'unisex'  # ✅ AGREGADO
         },
         
         # ==================== TRAIL RUNNING ====================
@@ -120,12 +126,13 @@ def create_sample_shoes():
             'width_fit': 'standard',
             'arch_support': 'neutral',
             'weight_capacity': 'medium',
-            'best_for_activity': 'trail_running',  # ✅ Específico trail
+            'best_for_activity': 'trail_running',
             'cushioning': 'medium',
             'footstrike_support': 'neutral',
             'distance_capacity': 'ultra',
             'carbon_plate': False,
-            'best_for_distance': 'ultra'
+            'best_for_distance': 'ultra',
+            'gender': 'male'  # ✅ AGREGADO
         },
         {
             'brand': 'La Sportiva',
@@ -137,12 +144,13 @@ def create_sample_shoes():
             'width_fit': 'narrow',
             'arch_support': 'neutral',
             'weight_capacity': 'light',
-            'best_for_activity': 'trail_running',  # ✅ Específico trail
+            'best_for_activity': 'trail_running',
             'cushioning': 'minimal',
             'footstrike_support': 'neutral',
             'distance_capacity': 'short',
             'carbon_plate': False,
-            'best_for_distance': '10k'
+            'best_for_distance': '10k',
+            'gender': 'female'  # ✅ AGREGADO
         },
         
         # ==================== COMPETICIÓN ROAD ====================
@@ -156,12 +164,13 @@ def create_sample_shoes():
             'width_fit': 'narrow',
             'arch_support': 'neutral',
             'weight_capacity': 'light',
-            'best_for_activity': 'road_running',  # ✅ Competición road
+            'best_for_activity': 'road_running',
             'cushioning': 'maximum',
             'footstrike_support': 'neutral',
             'distance_capacity': 'long',
             'carbon_plate': True,
-            'best_for_distance': 'marathon'
+            'best_for_distance': 'marathon',
+            'gender': 'male'  # ✅ AGREGADO
         },
         
         # ==================== GYM ====================
@@ -180,7 +189,8 @@ def create_sample_shoes():
             'footstrike_support': 'neutral',
             'distance_capacity': 'short',
             'carbon_plate': False,
-            'best_for_distance': 'training'
+            'best_for_distance': 'training',
+            'gender': 'male'  # ✅ AGREGADO
         },
         {
             'brand': 'Reebok',
@@ -197,7 +207,8 @@ def create_sample_shoes():
             'footstrike_support': 'neutral',
             'distance_capacity': 'short',
             'carbon_plate': False,
-            'best_for_distance': 'training'
+            'best_for_distance': 'training',
+            'gender': 'unisex'  # ✅ AGREGADO
         }
     ]
     return sample_shoes
