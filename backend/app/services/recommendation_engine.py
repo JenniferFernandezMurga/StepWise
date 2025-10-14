@@ -3,10 +3,15 @@ def calculate_match_score(user_data, shoe):
     score = 0
     factors = {}
     
-    # 1. Ancho del pie (30%)
-    if user_data.get('foot_width') == shoe.width_fit:
+    # ✅ NUEVO: OBTENER GÉNERO
+    gender = user_data.get('gender', 'other')
+    print(f"🔍 DEBUG: Género del usuario - {gender}")
+    
+    # 1. Ancho del pie (30%) - ✅ ACTUALIZADO CON GÉNERO
+    user_width = user_data.get('foot_width')
+    if user_width == shoe.width_fit:
         factors['width'] = 30
-    elif _is_width_compatible(user_data.get('foot_width'), shoe.width_fit):
+    elif _is_width_compatible(user_width, shoe.width_fit, gender):  # ✅ Género agregado
         factors['width'] = 20
     else:
         factors['width'] = 0
@@ -17,17 +22,35 @@ def calculate_match_score(user_data, shoe):
     else:
         factors['arch'] = 0
     
-    # 3. Peso vs capacidad (20%)
-    weight = user_data.get('weight', 70)
-    if weight < 70 and shoe.weight_capacity == 'light':
-        factors['weight'] = 20
-    elif 70 <= weight <= 90 and shoe.weight_capacity == 'medium':
-        factors['weight'] = 20  
-    elif weight > 90 and shoe.weight_capacity == 'heavy':
-        factors['weight'] = 20
-    else:
-        factors['weight'] = 10
+    # 3. Peso vs capacidad (20%) - ✅ CONVERSIÓN NÚMERO + GÉNERO
+    weight_input = user_data.get('weight', 70)
+    try:
+        weight = int(weight_input)  # ✅ CONVERTIR A NÚMERO
+    except (ValueError, TypeError):
+        weight = 70
+    print(f"🔍 DEBUG: Weight convertido - {weight} (tipo: {type(weight)})")
     
+    # ✅ RANGOS DIFERENCIADOS POR GÉNERO
+    if gender == 'female':
+        # Rangos para mujeres
+        if weight < 60 and shoe.weight_capacity == 'light':
+            factors['weight'] = 20
+        elif 60 <= weight <= 75 and shoe.weight_capacity == 'medium':
+            factors['weight'] = 20  
+        elif weight > 75 and shoe.weight_capacity == 'heavy':
+            factors['weight'] = 20
+        else:
+            factors['weight'] = 10
+    else:
+        # Rangos para hombres y otros
+        if weight < 70 and shoe.weight_capacity == 'light':
+            factors['weight'] = 20
+        elif 70 <= weight <= 90 and shoe.weight_capacity == 'medium':
+            factors['weight'] = 20  
+        elif weight > 90 and shoe.weight_capacity == 'heavy':
+            factors['weight'] = 20
+        else:
+            factors['weight'] = 10
 
     # 4. Tipo de pisada (25%) 
     user_footstrike = user_data.get('footstrike_type', 'neutral')
@@ -41,8 +64,8 @@ def calculate_match_score(user_data, shoe):
         factors['activity'] = 15
     else:
         factors['activity'] = _calculate_activity_compatibility(
-        user_data.get('activity_type'),
-        shoe.best_for_activity
+            user_data.get('activity_type'),
+            shoe.best_for_activity
         )
 
     # 6. Distancia (10%)
@@ -58,10 +81,14 @@ def calculate_match_score(user_data, shoe):
         shoe.carbon_plate
     )
 
-
-
+    # Debug
+    print(f"🔍 Factores para {shoe.brand} {shoe.model}: {factors}")
+    
     score = sum(factors.values())
-    return min(score, 100)  # Máximo 100%
+    final_score = min(score, 100)
+    print(f"🔍 Score final: {final_score}%")
+    
+    return final_score
 
 
 
@@ -136,11 +163,33 @@ def _calculate_carbon_plate_compatibility(running_level, target_distance, has_ca
     
     return 2  # ⚠️ Neutral para intermedios
 
-def _is_width_compatible(user_width, shoe_width):
-    """Lógica inteligente para compatibilidad de ancho"""
-    compatibility_map = {
-        'narrow': ['narrow', 'standard'],
-        'standard': ['narrow', 'standard', 'wide'], 
-        'wide': ['standard', 'wide']
-    }
-    return shoe_width in compatibility_map.get(user_width, [])
+# def _is_width_compatible(user_width, shoe_width):
+#     """Lógica inteligente para compatibilidad de ancho"""
+#     compatibility_map = {
+#         'narrow': ['narrow', 'standard'],
+#         'standard': ['narrow', 'standard', 'wide'], 
+#         'wide': ['standard', 'wide']
+#     }
+#     return shoe_width in compatibility_map.get(user_width, [])
+
+def _is_width_compatible(user_width, shoe_width, gender='other'):
+    """Lógica inteligente para compatibilidad de ancho - ✅ ACTUALIZADA CON GÉNERO"""
+    
+    # Mujeres generalmente necesitan tallas más estrechas
+    if gender == 'female':
+        compatibility_map = {
+            'narrow': ['narrow', 'standard'],
+            'standard': ['narrow', 'standard'],  # Menos compatibilidad con 'wide'
+            'wide': ['standard', 'wide']
+        }
+    else:
+        # Hombres y otros - mapping original
+        compatibility_map = {
+            'narrow': ['narrow', 'standard'],
+            'standard': ['narrow', 'standard', 'wide'], 
+            'wide': ['standard', 'wide']
+        }
+    
+    compatible = shoe_width in compatibility_map.get(user_width, [])
+    print(f"🔍 Compatibilidad ancho: usuario={user_width}, zapato={shoe_width}, género={gender} → {compatible}")
+    return compatible
